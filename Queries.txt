@@ -1,0 +1,43 @@
+Query: Total Sales Within a Specified Period
+
+SELECT 
+    SUM(price) AS total_sales,
+    COUNT(sale_id) AS total_transactions -- Optional: Count the number of sales
+FROM 
+    public.psales
+
+
+______________________________________________________________________________________________
+
+Query for sales per minute:
+
+SELECT 
+    p.brand,
+    DATE_TRUNC('minute', s.event_time) AS sales_time,
+    SUM(s.price) AS total_sales
+FROM 
+    public.psales s
+JOIN 
+    public.products p ON s.product_id = p.product_id
+GROUP BY 
+    p.brand, sales_time
+ORDER BY 
+    sales_time, p.brand;
+
+______________________
+
+SELECT 
+    p.brand,
+    DATE_TRUNC('hour', s.event_time) AS sales_time,
+    SUM(s.price) AS total_sales
+FROM 
+    public.psales s
+JOIN 
+    public.products p ON s.product_id = p.product_id
+GROUP BY 
+    p.brand, sales_time
+ORDER BY 
+    sales_time, p.brand;
+
+______________________
+
